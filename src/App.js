@@ -1,25 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import CreateForm from './Components/CreateForm';
+import Homepage from './Components/Homepage';
+import FillResponse from './Components/FillResponse';
+import ShowResponse from './Components/ShowResponse';
+
+import Login from "./Components/Login";
+import SignUp from "./Components/SignUp";
+import User from "./Components/User";
+
 
 function App() {
+  const NoMatchPage = () => {
+    return (
+      <h3>404 - Not found</h3>
+    );
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+      <Router>
+        <Switch>
+
+        <Route exact path="/">
+            <Homepage />
+          </Route>
+          <Route path="/create_form">
+            <CreateForm />
+          </Route>
+          <Route path="/fill_response">
+            <FillResponse />
+          </Route>
+           <Route path="/show_response">
+          <ShowResponse />
+          </Route> 
+          <Route path="/user">
+          <User />
+          </Route> 
+
+        <div className="auth-wrapper">
+        <div className="auth-inner">
+        <Route path="/sign-in" component={Login} />
+              <Route path="/sign-up" component={SignUp} />
+          </div>
+          </div>
+          <Route component={NoMatchPage} />
+
+        </Switch>
+      </Router>
+      </div>
   );
 }
 
