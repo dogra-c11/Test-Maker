@@ -23,6 +23,7 @@ export default class FillResponse extends React.Component {
       lgShow: false,
       loggedin:false,
     };
+    String.prototype.unquoted = function (){return this.replace (/(^")|("$)/g, '')}
   }
 
   componentWillMount() {
@@ -66,6 +67,19 @@ export default class FillResponse extends React.Component {
 
   myResponseHandler = (event) => {
     event.preventDefault();
+    const un = localStorage.getItem("username").unquoted();
+    const em = localStorage.getItem("email").unquoted();
+
+    let form = { ...this.state.form };
+    if (form.details.name === false)
+      form.details.name = un;
+    if (form.details.email === false)
+      form.details.email = em;
+      this.setState({ form },()=>{this.myResponseHandler2()});    
+    
+  }
+
+  myResponseHandler2() {
     let submit = true;
     this.state.form.questions.map((question) => {
       if (question.required && question.answer.trim() == "") {
@@ -138,16 +152,17 @@ export default class FillResponse extends React.Component {
       }
     return (
       <>
-        {/* <Navbar/> */}
+                        <Navbar/>
+
         <Container>
           <Row>
             <Col md={{ span: 6, offset: 3 }}>
-              {this.state.showform === false ? (
+              {this.state.showform === false ? (<>
                 <Form onSubmit={this.myIdHandler}>
                   <Form.Group
                     style={{ padding: "10px", borderTop: "15px solid black" }}
                   >
-                    <Form.Label>Enter Unique Id of the Form.</Form.Label>
+                    <Form.Label>Enter Test Id .</Form.Label>
                     <Form.Control
                       size="lg"
                       type="text"
@@ -160,7 +175,7 @@ export default class FillResponse extends React.Component {
                     </Button>
                   </Form.Group>
                 </Form>
-              ) : (
+             </> ) : (
                 <Form onSubmit={this.myResponseHandler}>
                   <Form.Group
                     style={{ padding: "10px", borderTop: "15px solid black" }}
@@ -170,18 +185,17 @@ export default class FillResponse extends React.Component {
 
                     <Form.Label>{this.state.form.description}</Form.Label>
                     </Form.Group>
-                   <Form.Group style={{backgroundColor:"white", padding:"10px" ,boxShadow:"5px 5px 2px 2px dimgrey", marginBottom:"30px"}}>
-                      {this.state.form.details.name !== false ? (<>
+                   <Form.Group style={{backgroundColor:"white" , marginBottom:"30px"}}>
+                      {this.state.form.details.name === true ? (<>
                       <Form.Label><b>Name</b></Form.Label>
                       <Form.Control
                       type="text"
                       name="name"
-                      value="hello"
                       required
                       onChange={ this.detailsHandler}
                     />
                     </>  ) : null}
-                      {this.state.form.details.rollno !== false ? (<>
+                      {this.state.form.details.rollno === true ? (<>
                       <Form.Label><b>Roll No</b></Form.Label>
                       <Form.Control
                       type="text"
@@ -190,7 +204,7 @@ export default class FillResponse extends React.Component {
                       onChange={ this.detailsHandler}
                     />
                    </>   ) : null}
-                      {this.state.form.details.email !== false ? (<>
+                      {this.state.form.details.email === true ? (<>
                       <Form.Label><b>Email Id</b></Form.Label>
                       <Form.Control
                       type="email"
@@ -204,7 +218,7 @@ export default class FillResponse extends React.Component {
                     <Form.Row>
                       <Col>
                         {this.state.form.questions.map((question) => (
-                          <Form.Group style={{backgroundColor:"white", padding:"5px" ,boxShadow:"5px 5px 2px 2px dimgrey"}}>
+                          <Form.Group style={{backgroundColor:"white", padding:"10px" ,boxShadow:"5px 5px 2px 2px dimgrey"}}>
                            <span>Q:   </span>{question.selectValue === "text" ? (
                               <>
                                 <Form.Label><b>{question.question}</b></Form.Label>

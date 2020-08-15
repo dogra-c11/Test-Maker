@@ -50,7 +50,7 @@ export default class SignUp extends Component {
 render() {
     if (this.state.loggedin) {
         return (
-            <Redirect to="/login"></Redirect>
+            <Redirect to="/sign-in"></Redirect>
         );
         }
         return (

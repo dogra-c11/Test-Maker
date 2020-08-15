@@ -40,8 +40,8 @@ export default class User extends React.Component {
             <Container>
             <Row>
                     <Col md={{ span: 6, offset: 3 }}>
-                        <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
-                            <Tab eventKey="home" title="My Forms">
+                        <Tabs defaultActiveKey="home" id="uncontrolled-tab-example" style={{fontSize:"20px"}}>
+                            <Tab eventKey="home" title="My Forms" >
                     <MyForms />
           </Tab>
                             <Tab eventKey="profile" title="My Responses">

@@ -49,11 +49,12 @@ export default class MyForms extends React.Component {
       <>
         <div className="forms">
           <Jumbotron className="jb">
-            <h2>Fill a new Response</h2>
+            <h2>Give a Test here</h2>
             <p>
-              <Link to="/fill_response" className="btn btn-primary link">
-                Fill Response
+              <Link to="/fill_response" className="btn btn-hover color-10 link">
+                Answer Test
               </Link>
+
             </p>
           </Jumbotron><br/>
           <h3><u>Previous Responses</u></h3><br/>
@@ -61,7 +62,7 @@ export default class MyForms extends React.Component {
           {this.state.responses.length === 0 ? (<>
             {this.state.spinner===true?(<Spinner animation="border" role="status">
   <span className="sr-only">Loading...</span>
-</Spinner>):<p>No Responses submitted yet.</p>}
+</Spinner>):<p>No tests submitted yet.</p>}
          </> ) : (
             this.state.responses.map((response) => (
               <>
@@ -74,8 +75,10 @@ export default class MyForms extends React.Component {
                     boxShadow: "5px 5px 2px 2px #b3b3b3",
                   }}
                 >
-                  <p> Form Id : {response.id}</p>
-                  <p> Form Name : {response.form.name}</p>
+                  <p> Test Id : <b>{response.id}</b></p>
+                  <p> Test Name : <b>{response.form.name}</b></p>
+                  <p> Submission Date :<b> {response.date.toString().substring(0,10)}</b></p>
+
                   <Button
                     variant="success"
                     onClick={(e) => this.responseHandler(e, response)}

@@ -1,13 +1,19 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import car from "./img/laptop.jpeg";
+import { MdSchool } from "react-icons/md";
+import {FiLogOut} from "react-icons/fi"
+
+
 
 import { BrowserRouter as Router, Link, Redirect } from "react-router-dom";
 
 export default class Navbar extends React.Component {
   constructor() {
       super();
-      this.state = {loggedin:true}
+    this.state = { loggedin: true }
+    String.prototype.unquoted = function (){return this.replace (/(^")|("$)/g, '')}
+
     }
     
   handleLogout = () => {
@@ -20,7 +26,8 @@ export default class Navbar extends React.Component {
     if (!this.state.loggedin) {
       return <Redirect to="/sign-in" />;
     }
-      const username = localStorage.getItem("username");
+    const username = localStorage.getItem("username").unquoted();
+ 
       
     return (
       <>
@@ -28,15 +35,17 @@ export default class Navbar extends React.Component {
           <div class="container">
             <nav>
               <div id="brand">
-                <p>
-                  <i class="fas fa-anchor"></i>
-                  <span>Brand</span>
+                <p>              
+                 <a href="/user"> <span>      <MdSchool />
+TestMaker</span></a>
                 </p>
               </div>
               <ul>
                 <li>Hi, {username}</li>
                 &nbsp; &nbsp; &nbsp;
-                  <Button variant="dark" onClick={this.handleLogout} >Log Out</Button>
+                  <button class="btn-hover color-11" style={{  height:" 35px",width:"120px"
+}}  onClick={this.handleLogout} >
+    <FiLogOut/> Log Out</button>
               </ul>
             </nav>
           </div>

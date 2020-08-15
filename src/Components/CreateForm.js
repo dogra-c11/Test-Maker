@@ -34,7 +34,6 @@ export default class CreateForm extends React.Component {
       },
       user:{},
       lgShow: false,
-      uid: "",
       loggedin:false,
     };
   }
@@ -120,7 +119,7 @@ export default class CreateForm extends React.Component {
         .post("http://localhost:9000/saveform", this.state)
         .then((res) => {
           console.log(res.data);
-          this.setState({ lgShow: true,uid:res.data });
+          this.setState({ lgShow: true });
         })
         .catch((err) => {
           console.error(err);
@@ -333,10 +332,10 @@ export default class CreateForm extends React.Component {
                 keyboard={false}
               >
                 <Modal.Header closeButton>
-                  <Modal.Title>Form Saved Successfully!</Modal.Title>
+                  <Modal.Title>Success</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  Unique ID is <b>{this.state.uid}</b>
+                  <b>Form Saved Successfully!</b>
                 </Modal.Body>
               </Modal>
             

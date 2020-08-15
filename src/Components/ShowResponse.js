@@ -7,14 +7,17 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import { Redirect } from "react-router-dom";
+import Spinner from 'react-bootstrap/Spinner'
+import Navbar from './Navbar'
+
 
 import Table from "react-bootstrap/Table";
 
 export default class ShowResponse extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props)
-    let id = (new URLSearchParams(window.location.search)).get("utm")
+    console.log(this.props);
+    let id = new URLSearchParams(window.location.search).get("utm");
     this.state = {
       id: id,
       responses: [{}],
@@ -22,20 +25,20 @@ export default class ShowResponse extends React.Component {
       showresponse: false,
       response: { form: { questions: [] } },
       lgShow: false,
-      loggedin:false,
+      loggedin: false,
     };
   }
 
   componentWillMount() {
     const user = localStorage.getItem("user");
     if (user) {
-      console.log(user)
-      this.setState({loggedin:true})
+      console.log(user);
+      this.setState({ loggedin: true });
     }
 
     this.myIdHandler();
   }
-  
+
   myIdChangeHandler = (e) => {
     console.log(e.target.value);
     this.setState({ id: e.target.value });
@@ -44,17 +47,17 @@ export default class ShowResponse extends React.Component {
   myIdHandler = () => {
     //event.preventDefault();
     // if (this.state.id.trim() != "") {
-      axios
-        .post("http://localhost:9000/showresponses", this.state)
-        .then((res) => {
-          console.log(res.data);
-          this.setState({ responses: res.data, showresponses: true });
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-  // } 
-  //   else alert("Fill all details correctly");
+    axios
+      .post("http://localhost:9000/showresponses", this.state)
+      .then((res) => {
+        console.log(res.data);
+        this.setState({ responses: res.data, showresponses: true });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    // }
+    //   else alert("Fill all details correctly");
   };
 
   responseHandler = (e, res) => {
@@ -67,66 +70,62 @@ export default class ShowResponse extends React.Component {
 
   render() {
     if (!this.state.loggedin) {
-      return (
-        <Redirect to="/sign-in"/>
-      );
-      }
+      return <Redirect to="/sign-in" />;
+    }
     return (
       <>
+                         <Navbar/>
+
         <Container>
           <Row>
             <Col md={{ span: 6, offset: 3 }}>
               {this.state.showresponses === false ? (
-               <p>No response yet</p> 
-                // <Form onSubmit={this.myIdHandler}>
-                //   <Form.Group
-                //     style={{ padding: "10px", borderTop: "15px solid black" }}
-                //   >
-                //     <Form.Label>Enter Unique Id of the Form.</Form.Label>
-                //     <Form.Control
-                //       size="lg"
-                //       type="text"
-                //       required
-                //       onChange={this.myIdChangeHandler}
-                //     />
-                //     <br />
-                //     <Button variant="success" type="submit" size="lg">
-                //       Next
-                //     </Button>
-                //   </Form.Group>
-                // </Form>
+                <div className="spi">
+                <Spinner  animation="border" role="status" size="lg">
+                  <span className="sr-only">Loading...</span>
+                  </Spinner>
+                  </div>
               ) : (
                 <>
-                  <h2>RESPONSES </h2><br/>
+                  <h2 style={{color: "#FFFFFF",
+background: "#f36886",
+textShadow: "4px 3px 0px #7A7A7A"}}>ALL RESPONSES</h2>
+                  <br />
                   <Table striped bordered hover>
                     {" "}
                     <thead>
                       <tr>
-                          <th>Response ID</th>
-                          <th>Name</th>
-                          <th>RollNo</th>
-                          <th>Email Id</th>
-                          <th>....</th>
+                        <th>Response ID</th>
+                        <th>Name</th>
+                        <th>RollNo</th>
+                        <th>Email Id</th>
+                        <th>Answer Sheet</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.responses.map((response) => (
-                        <tr>
-                          <td>{response._id}</td>
-                          <td>{response.form.details.name}</td>
-                          <td>{response.form.details.rollno}</td>
-                          <td>{response.form.details.email}</td>
+                      {this.state.responses.length === 0 ? (
+                        <p>No response yet</p>
+                      ) : (
+                        this.state.responses.map((response) => (
+                          <tr>
+                            <td>{response._id}</td>
+                            <td>{response.form.details.name!==""?(response.form.details.name):<>...</>}</td>
+                            <td>{response.form.details.rollno!==""?(response.form.details.rollno):<>...</>}</td>
+                            <td>{response.form.details.email!==""?(response.form.details.email):<>...</>}</td>
 
-                          <td>
-                            <Button
-                              variant="primary"
-                              onClick={(e) => this.responseHandler(e, response)}
-                            >
-                              Show
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
+                            <td>
+                              <Button
+                                variant="success"
+                                onClick={(e) =>
+                                  this.responseHandler(e, response)
+                                }
+                              >
+                                Show
+                              </Button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </Table>
                 </>
@@ -144,7 +143,9 @@ export default class ShowResponse extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                   <h4>{this.state.response.form.name}</h4>
-                  {this.state.response.form.description}<br/><br/>
+                  {this.state.response.form.description}
+                  <br />
+                  <br />
                   {this.state.response.form.questions.map((question) => (
                     <>
                       {" "}

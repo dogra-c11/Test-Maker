@@ -12,33 +12,29 @@ import {
 export default class Homepage extends React.Component {
   constructor() {
     super();
-    this.state = {
-      loggedin:false,
-    }
-    
+    this.state={ start:false,}
     }
 
-  componentWillMount() {
-    const user = localStorage.getItem("user");
-    if (user) {
-      console.log(user)
-      this.setState({loggedin:true})
-    }
-    }
+  redirect = () => {
+    this.setState({ start: true });
+  }
+ 
 
 render() {
-  if (!this.state.loggedin) {
+  if (this.state.start == true) {
     return (
-      <Redirect to="/sign-in"/>
+        <Redirect to="/sign-in"></Redirect>
     );
-    }
+  }
     return (
         <>
-          <div className="hp"><h1>TEST MAKER</h1>
-            <Link to="/create_form"  className="btn btn-primary link">Create Form</Link>
-            <Link to="/fill_response"  className="btn btn-primary link">Fill Response</Link>
-          <Link to="/show_responses" className="btn btn-primary link">Responses</Link></div>
-          
+        <div id="hp">
+          <h1 class="fourth"><span>Test</span><span>Maker</span></h1> 
+          <div id="hpi">
+          <p>Create Tests</p>
+            <p>Give Tests</p>
+            </div>
+            <button class="btn-hover color-7" onClick={this.redirect}>Get Started</button>          </div>
       </>
     );
   }

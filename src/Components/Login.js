@@ -14,6 +14,13 @@ export default class Login extends Component {
         };
     }
 
+    componentWillMount() {
+        const user = localStorage.getItem("user");
+        if (user) {
+          this.setState({ loggedin: true });
+        }
+        }
+
     mySubmitHandler = (event) => {
         event.preventDefault();
           axios
@@ -23,6 +30,7 @@ export default class Login extends Component {
                 let user = res.data;
                 localStorage.setItem("user", JSON.stringify(user[0]));
                 localStorage.setItem("username", JSON.stringify(user[0].fname));
+                localStorage.setItem("email", JSON.stringify(user[0].email));
               this.setState({ loggedin: true});
             })
             .catch((err) => {
@@ -44,7 +52,7 @@ export default class Login extends Component {
     render() {
         if (this.state.loggedin) {
             return (
-                <Redirect to="/"></Redirect>
+                <Redirect to="/user"></Redirect>
             );
             }
         return (

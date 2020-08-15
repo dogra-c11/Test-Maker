@@ -80,16 +80,16 @@ export default class MyForms extends React.Component {
       <>
         <div className="forms">
           <Jumbotron className="jb">
-            <h2>Create a new Form</h2>
-            <Link to="/create_form" className="btn btn-primary link">
-              Create Form
+            <h2>Create a new Test</h2>
+            <Link to="/create_form" className="btn btn-hover color-10 link">
+                Create Test
             </Link>
           </Jumbotron>
-          <h3><u>Previous Forms</u></h3><br/>
+          <h3><u>Previous Tests</u></h3><br/>
           {this.state.forms.length === 0 ? (<>
            {this.state.spinner===true?(<Spinner animation="border" role="status">
   <span className="sr-only">Loading...</span>
-</Spinner>):<p>No form made yet.</p>} 
+</Spinner>):<p>No test made yet.</p>} 
         </>  ) : (
             this.state.forms.map((form) => (
               <>
@@ -101,8 +101,10 @@ export default class MyForms extends React.Component {
                     boxShadow: "5px 5px 2px 2px #b3b3b3",
                   }}
                 >
-                  <p> Form Id : {form._id}</p>
-                  <p> Form Name : {form.name}</p>
+                  <p> Test Id :<b> {form._id}</b></p>
+                  <p> Test Name :<b> {form.name}</b></p>
+                  <p> Test Date :<b> {form.date.toString().substring(0,10)}</b></p>
+
                   <Button variant="info" onClick={() => this.showform(form._id)}>Show Responses</Button><br/><br/>
                   <Button variant="danger" onClick={()=>this.deleteformconfirm(form._id)}>Delete</Button>
                 </div>
