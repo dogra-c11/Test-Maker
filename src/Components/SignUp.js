@@ -24,8 +24,12 @@ export default class SignUp extends Component {
           axios
             .post("http://localhost:9000/register", this.state.details)
             .then((res) => {
-                console.log(res.data);
-              this.setState({ loggedin:true });
+                if (res.data === "no")
+                    alert("email id already exists");
+                else {
+                    alert(res.data);
+                    this.setState({ loggedin: true });
+                }
             })
             .catch((err) => {
               console.error(err);
@@ -53,7 +57,10 @@ render() {
             <Redirect to="/sign-in"></Redirect>
         );
         }
-        return (
+    return (
+            
+        <div className="auth-wrapper">
+        <div className="auth-inner">
             <form onSubmit={this.mySubmitHandler}>
                 <h3>Sign Up</h3>
 
@@ -81,7 +88,8 @@ render() {
                 <p className="forgot-password text-right">
                     Already registered <a href="/sign-in">sign in?</a>
                 </p>
-            </form>
+                </form>
+                </div></div>
         );
     }
 }

@@ -25,13 +25,17 @@ export default class Login extends Component {
         event.preventDefault();
           axios
             .post("http://localhost:9000/login", this.state.details)
-            .then((res) => {
+              .then((res) => {
+                  if (res.data === false)
+                      alert("username or password is incorrect.")
+                  else {
+                    let user = res.data;
+                    localStorage.setItem("user", JSON.stringify(user[0]));
+                    localStorage.setItem("username", JSON.stringify(user[0].fname));
+                    localStorage.setItem("email", JSON.stringify(user[0].email));
+                  this.setState({ loggedin: true});
+                  }
                 console.log(res.data);
-                let user = res.data;
-                localStorage.setItem("user", JSON.stringify(user[0]));
-                localStorage.setItem("username", JSON.stringify(user[0].fname));
-                localStorage.setItem("email", JSON.stringify(user[0].email));
-              this.setState({ loggedin: true});
             })
             .catch((err) => {
                 console.error(err);
@@ -56,6 +60,9 @@ export default class Login extends Component {
             );
             }
         return (
+            
+        <div className="auth-wrapper">
+        <div className="auth-inner">
             <form onSubmit={this.mySubmitHandler}>
                 <h3>Sign In</h3>
 
@@ -80,7 +87,8 @@ export default class Login extends Component {
                 <p className="forgot-password text-right">
                     Dont have an account <a href="sign-up">sign up?</a>
                 </p>
-            </form>
+                    </form>
+                    </div></div>
         );
     }
 }

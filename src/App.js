@@ -43,13 +43,9 @@ function App() {
           <User />
           </Route> 
 
-        <div className="auth-wrapper">
-        <div className="auth-inner">
         <Route path="/sign-in" component={Login} />
               <Route path="/sign-up" component={SignUp} />
-          </div>
-          </div>
-          <Route component={NoMatchPage} />
+              <Route component={NoMatchPage} />
 
         </Switch>
       </Router>
