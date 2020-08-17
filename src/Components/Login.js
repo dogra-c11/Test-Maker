@@ -24,7 +24,7 @@ export default class Login extends Component {
     mySubmitHandler = (event) => {
         event.preventDefault();
           axios
-            .post("http://localhost:9000/login", this.state.details)
+            .post("https://testmaker-server.herokuapp.com/login", this.state.details)
               .then((res) => {
                   if (res.data === false)
                       alert("username or password is incorrect.")
@@ -56,7 +56,7 @@ export default class Login extends Component {
     render() {
         if (this.state.loggedin) {
             return (
-                <Redirect to="/user"></Redirect>
+                <Redirect to="/"></Redirect>
             );
             }
         return (
