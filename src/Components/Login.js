@@ -24,7 +24,7 @@ export default class Login extends Component {
     mySubmitHandler = (event) => {
         event.preventDefault();
           axios
-            .post("https://cors-anywhere11.herokuapp.com//https://testmaker-server.herokuapp.com/login", this.state.details)
+            .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/login", this.state.details)
               .then((res) => {
                   if (res.data === false)
                       alert("username or password is incorrect.")
