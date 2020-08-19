@@ -8,6 +8,8 @@ import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import { Redirect } from "react-router-dom";
 import Navbar from "./Navbar";
+import Spinner from 'react-bootstrap/Spinner';
+
 
 export default class FillResponse extends React.Component {
   constructor(props) {

@@ -8,6 +8,8 @@ import Col from "react-bootstrap/Col";
 import { Redirect } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Navbar from "./Navbar";
+import Spinner from 'react-bootstrap/Spinner';
+
 
 export default class CreateForm extends React.Component {
   constructor() {
