@@ -8,8 +8,7 @@ import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import { Redirect } from "react-router-dom";
 import Navbar from "./Navbar";
-import Spinner from 'react-bootstrap/Spinner';
-
+import Spinner from "react-bootstrap/Spinner";
 
 export default class FillResponse extends React.Component {
   constructor(props) {
@@ -63,7 +62,6 @@ export default class FillResponse extends React.Component {
             if (res.data === false) alert("enter correct id");
             else this.setState({ form: res.data, showform: true });
             this.setState({ loadingbtn: false });
-
           })
           .catch((err) => {
             console.error(err);
@@ -95,18 +93,21 @@ export default class FillResponse extends React.Component {
       }
     });
     if (submit) {
-      axios
-        .post(
-          "https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/saveresponse",
-          this.state,
-        )
-        .then((res) => {
-          console.log(res.data);
-          this.setState({ lgShow: true });
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      this.setState({ loadingbtn: true }, () => {
+        axios
+          .post(
+            "https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/saveresponse",
+            this.state,
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.setState({ lgShow: true,loadingbtn: false});
+          })
+          .catch((err) => {
+            alert(err);
+            this.setState({ loadingbtn: false })
+          });
+      });
     }
   }
 
@@ -344,23 +345,23 @@ export default class FillResponse extends React.Component {
                       </Col>
                     </Form.Row>
                   </Form.Group>
-                  
+
                   {this.state.loadingbtn === false ? (
-                        <Button variant="success" type="submit">
-                        Submit
+                    <Button variant="success" type="submit">
+                      Submit
                     </Button>
-                      ) : (
-                        <Button variant="success" disabled>
-                          <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                          />
-                          Submitting...
-                        </Button>
-                      )}
+                  ) : (
+                    <Button variant="success" disabled>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      Submitting...
+                    </Button>
+                  )}
                 </Form>
               )}
 

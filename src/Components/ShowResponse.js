@@ -7,9 +7,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import { Redirect } from "react-router-dom";
-import Spinner from 'react-bootstrap/Spinner'
-import Navbar from './Navbar'
-
+import Spinner from "react-bootstrap/Spinner";
+import Navbar from "./Navbar";
 
 import Table from "react-bootstrap/Table";
 
@@ -48,7 +47,10 @@ export default class ShowResponse extends React.Component {
     //event.preventDefault();
     // if (this.state.id.trim() != "") {
     axios
-      .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/showresponses", this.state)
+      .post(
+        "https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/showresponses",
+        this.state,
+      )
       .then((res) => {
         console.log(res.data);
         this.setState({ responses: res.data, showresponses: true });
@@ -74,22 +76,28 @@ export default class ShowResponse extends React.Component {
     }
     return (
       <>
-                         <Navbar/>
+        <Navbar />
 
         <Container>
           <Row>
             <Col md={{ span: 6, offset: 3 }}>
               {this.state.showresponses === false ? (
                 <div className="spi">
-                <Spinner  animation="border" role="status" size="lg">
-                  <span className="sr-only">Loading...</span>
+                  <Spinner animation="border" role="status" size="lg">
+                    <span className="sr-only">Loading...</span>
                   </Spinner>
-                  </div>
+                </div>
               ) : (
                 <>
-                  <h2 style={{color: "#FFFFFF",
-background: "#f36886",
-textShadow: "4px 3px 0px #7A7A7A"}}>ALL RESPONSES</h2>
+                  <h2
+                    style={{
+                      color: "#FFFFFF",
+                      background: "#f36886",
+                      textShadow: "4px 3px 0px #7A7A7A",
+                    }}
+                  >
+                    ALL RESPONSES
+                  </h2>
                   <br />
                   <Table striped bordered hover>
                     {" "}
@@ -97,8 +105,8 @@ textShadow: "4px 3px 0px #7A7A7A"}}>ALL RESPONSES</h2>
                       <tr>
                         <th>Response ID</th>
                         <th>Name</th>
-                        <th>RollNo</th>
                         <th>Email Id</th>
+                        <th>RollNo</th>
                         <th>Answer Sheet</th>
                       </tr>
                     </thead>
@@ -109,9 +117,27 @@ textShadow: "4px 3px 0px #7A7A7A"}}>ALL RESPONSES</h2>
                         this.state.responses.map((response) => (
                           <tr>
                             <td>{response._id}</td>
-                            <td>{response.form.details.name!==""?(response.form.details.name):<>...</>}</td>
-                            <td>{response.form.details.rollno!==""?(response.form.details.rollno):<>...</>}</td>
-                            <td>{response.form.details.email!==""?(response.form.details.email):<>...</>}</td>
+                            <td>
+                              {response.form.details.name !== "" ? (
+                                response.form.details.name
+                              ) : (
+                                <>...</>
+                              )}
+                            </td>
+                            <td>
+                              {response.form.details.email !== "" ? (
+                                response.form.details.email
+                              ) : (
+                                <>...</>
+                              )}
+                            </td>
+                            <td>
+                              {response.form.details.rollno !== "" ? (
+                                response.form.details.rollno
+                              ) : (
+                                <>...</>
+                              )}
+                            </td>
 
                             <td>
                               <Button
