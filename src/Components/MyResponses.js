@@ -23,7 +23,7 @@ export default class MyForms extends React.Component {
 
   componentWillMount() {
     axios
-      .post("http://localhost:9000/showmyresponses", this.state)
+      .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/showmyresponses", this.state)
       .then((res) => {
         console.log("mount",res.data);
         this.setState({ responses: res.data,spinner:false });

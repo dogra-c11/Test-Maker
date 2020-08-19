@@ -116,7 +116,7 @@ export default class CreateForm extends React.Component {
     event.preventDefault();
     if (this.state.name.trim() != "" && this.state.description.trim() != "") {
       axios
-        .post("http://localhost:9000/saveform", this.state)
+        .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/saveform", this.state)
         .then((res) => {
           console.log(res.data);
           this.setState({ lgShow: true });

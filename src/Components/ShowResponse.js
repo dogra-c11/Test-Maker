@@ -48,7 +48,7 @@ export default class ShowResponse extends React.Component {
     //event.preventDefault();
     // if (this.state.id.trim() != "") {
     axios
-      .post("http://localhost:9000/showresponses", this.state)
+      .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/showresponses", this.state)
       .then((res) => {
         console.log(res.data);
         this.setState({ responses: res.data, showresponses: true });

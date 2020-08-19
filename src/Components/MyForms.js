@@ -25,7 +25,7 @@ export default class MyForms extends React.Component {
 
   componentWillMount() {
     axios
-      .post("http://localhost:9000/showforms", this.state)
+      .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/showforms", this.state)
       .then((res) => {
         console.log(res.data);
         
@@ -51,7 +51,7 @@ export default class MyForms extends React.Component {
   deleteformexecute = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:9000/deleteform", this.state)
+      .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/deleteform", this.state)
       .then((res) => {
         console.log(res.data);
         if (res.data.result.n === 1)

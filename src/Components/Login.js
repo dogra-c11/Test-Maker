@@ -56,7 +56,7 @@ export default class Login extends Component {
     render() {
         if (this.state.loggedin) {
             return (
-                <Redirect to="/"></Redirect>
+                <Redirect to="/user"></Redirect>
             );
             }
         return (

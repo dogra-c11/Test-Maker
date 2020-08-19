@@ -22,7 +22,7 @@ export default class SignUp extends Component {
         event.preventDefault();
         if (this.state.details.fname.trim() != "" && this.state.details.lname.trim() != "") {
           axios
-            .post("http://localhost:9000/register", this.state.details)
+            .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/register", this.state.details)
             .then((res) => {
                 if (res.data === "no")
                     alert("email id already exists");

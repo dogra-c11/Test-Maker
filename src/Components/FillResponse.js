@@ -51,7 +51,7 @@ export default class FillResponse extends React.Component {
     event.preventDefault();
     if (this.state.id.trim() != "") {
       axios
-        .post("http://localhost:9000/fillform", this.state)
+        .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/fillform", this.state)
         .then((res) => {
           console.log(res.data);
           if(res.data===false)
@@ -89,7 +89,7 @@ export default class FillResponse extends React.Component {
     })
     if (submit) {
       axios
-        .post('http://localhost:9000/saveresponse', this.state)
+        .post('https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/saveresponse', this.state)
         .then((res) => {
           console.log((res.data));
           this.setState({ lgShow: true })
