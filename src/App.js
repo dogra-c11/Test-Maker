@@ -5,6 +5,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+
 import CreateForm from './Components/CreateForm';
 import Homepage from './Components/Homepage';
 import FillResponse from './Components/FillResponse';
@@ -30,16 +31,16 @@ function App() {
         <Route exact path="/">
             <Homepage />
           </Route>
-          <Route path="/create_form">
+          <Route exact path="/create_form">
             <CreateForm />
           </Route>
-          <Route path="/fill_response">
+          <Route exact path="/fill_response">
             <FillResponse />
           </Route>
-           <Route path="/show_response">
+           <Route exact path="/show_response">
           <ShowResponse />
           </Route> 
-          <Route path="/user">
+          <Route exact path="/user">
           <User />
           </Route> 
 
