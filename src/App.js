@@ -31,16 +31,16 @@ function App() {
         <Route exact path="/">
             <Homepage />
           </Route>
-          <Route exact path="/create_form">
+          <Route  path="/create_form">
             <CreateForm />
           </Route>
-          <Route exact path="/fill_response">
+          <Route  path="/fill_response">
             <FillResponse />
           </Route>
-           <Route exact path="/show_response">
+           <Route  path="/show_response">
           <ShowResponse />
           </Route> 
-          <Route exact path="/user">
+          <Route path="/user">
           <User />
           </Route> 
 
