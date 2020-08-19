@@ -265,14 +265,6 @@ a:hover
   color: #167bff;
 }
 
-.bg {
-  background-image: url("./Components/img/laptop.jpeg");
-  height: 100%; 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  text-align: left;
-}
 .switch {
   position: relative;
   display: inline-block;
