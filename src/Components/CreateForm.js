@@ -23,28 +23,32 @@ export default class CreateForm extends React.Component {
           options: [{ id: "option 1", q: "" }],
           start: "0",
           end: "2",
-          required:false,
+          required: false,
           i: 1,
         },
       ],
-      details: { 
+      details: {
         name: false,
         rollno: false,
-        email:false,
+        email: false,
       },
-      user:{},
+      user: {},
       lgShow: false,
-      loggedin:false,
+      loggedin: false,
+      loadingbtn: false,
+      goback:false,
     };
   }
 
   componentWillMount() {
     const user = localStorage.getItem("user");
     if (user) {
-      console.log(user)
-      this.setState({ loggedin: true, user: user }, () => console.log(this.state));
+      console.log(user);
+      this.setState({ loggedin: true, user: user }, () =>
+        console.log(this.state),
+      );
     }
-    }
+  }
 
   handleDropdownChange = (e, question) => {
     console.log(e.target.value);
@@ -57,13 +61,11 @@ export default class CreateForm extends React.Component {
   handleRangeChange = (e, question) => {
     let n = this.state.questions.indexOf(question);
     let questions = [...this.state.questions];
-    if(e.target.name==="start")
-      questions[n].start = e.target.value;
-    else if (e.target.name === "end")
-    questions[n].end = e.target.value;
+    if (e.target.name === "start") questions[n].start = e.target.value;
+    else if (e.target.name === "end") questions[n].end = e.target.value;
     this.setState({ questions });
-    console.log(this.state)
-  }
+    console.log(this.state);
+  };
 
   addoptions = (question) => {
     let n = this.state.questions.indexOf(question);
@@ -115,54 +117,57 @@ export default class CreateForm extends React.Component {
   mySubmitHandler = (event) => {
     event.preventDefault();
     if (this.state.name.trim() != "" && this.state.description.trim() != "") {
-      axios
-        .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/saveform", this.state)
-        .then((res) => {
-          console.log(res.data);
-          this.setState({ lgShow: true });
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      this.setState({ loadingbtn: true }, () => {
+        axios
+          .post(
+            "https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/saveform",
+            this.state,
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.setState({ lgShow: true,loadingbtn: false });
+          })
+          .catch((err) => {
+            alert(err);
+            this.setState({ loadingbtn: false });
+          });
+      });
     } else alert("Fill all details correctly");
   };
 
   handleClose = () => {
-    this.setState({ lgShow: false });
+    this.setState({ lgShow: false,goback:true });
   };
-  handleRequire = (e,question) => {
+  handleRequire = (e, question) => {
     console.log(e.target.checked);
     let n = this.state.questions.indexOf(question);
     let questions = [...this.state.questions];
     questions[n].required = e.target.checked;
     this.setState({ questions });
-  }
+  };
 
   handleDetails = (e) => {
     console.log(e.target.checked);
     let details = { ...this.state.details };
     if (e.target.name === "Name") {
       details.name = e.target.checked;
-    }
-    else if(e.target.name === "RollNo") {
+    } else if (e.target.name === "RollNo") {
       details.rollno = e.target.checked;
-    }
-    else if(e.target.name === "Email") {
+    } else if (e.target.name === "Email") {
       details.email = e.target.checked;
     }
     this.setState({ details });
-
-  }
+  };
 
   render() {
     if (!this.state.loggedin) {
-      return (
-        <Redirect to="/sign-in"/>
-      );
-      }
+      return <Redirect to="/sign-in" />;
+    }
+    if (this.state.goback) {
+      return <Redirect to="/user" />;
+    }
     return (
       <>
-        {/* <Navbar/> */}
         <Container>
           <Row>
             <Col md={{ span: 6, offset: 3 }}>
@@ -170,14 +175,18 @@ export default class CreateForm extends React.Component {
                 <Form.Group
                   style={{ padding: "10px", borderTop: "15px solid black" }}
                 >
-                  <Form.Label><b>Title</b></Form.Label>
+                  <Form.Label>
+                    <b>Title</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="name"
                     required
                     onChange={(e) => this.myChangeHandler(e)}
                   />
-                  <Form.Label><b>Description</b></Form.Label>
+                  <Form.Label>
+                    <b>Description</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="description"
@@ -193,7 +202,7 @@ export default class CreateForm extends React.Component {
                           style={{
                             padding: "10px",
                             backgroundColor: "white",
-                            boxShadow:"5px 5px 2px 2px grey"
+                            boxShadow: "5px 5px 2px 2px grey",
                           }}
                         >
                           <Form.Row style={{ marginBottom: "7px" }}>
@@ -229,40 +238,49 @@ export default class CreateForm extends React.Component {
                               disabled
                             />
                           ) : null}
-                          {question.selectValue === "range" ? (<>
-                            <Form.Row><Col>
-                            <Form.Control 
-                            as="select"
-                            size="sm"
-                                custom
-                                name="start"
-                            onChange={(e) => {
-                              this.handleRangeChange(e, question);
-                            }}
-                          >
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                              </Form.Control></Col><Col><span>to</span></Col> 
-                              <Col>
-                          <Form.Control 
-                                as="select"
-                                size="sm"
-                                  custom
-                                  name="end"
-                                onChange={(e) => {
-                                  this.handleRangeChange(e, question);
-                                }}
-                              >
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                <option value="6">6</option>
-                                  <option value="7">7</option>
-                                  <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                              </Form.Control></Col></Form.Row></>
+                          {question.selectValue === "range" ? (
+                            <>
+                              <Form.Row>
+                                <Col>
+                                  <Form.Control
+                                    as="select"
+                                    size="sm"
+                                    custom
+                                    name="start"
+                                    onChange={(e) => {
+                                      this.handleRangeChange(e, question);
+                                    }}
+                                  >
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                  </Form.Control>
+                                </Col>
+                                <Col>
+                                  <span>to</span>
+                                </Col>
+                                <Col>
+                                  <Form.Control
+                                    as="select"
+                                    size="sm"
+                                    custom
+                                    name="end"
+                                    onChange={(e) => {
+                                      this.handleRangeChange(e, question);
+                                    }}
+                                  >
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                  </Form.Control>
+                                </Col>
+                              </Form.Row>
+                            </>
                           ) : null}
                           {question.selectValue === "dropdown" ? (
                             <>
@@ -286,8 +304,13 @@ export default class CreateForm extends React.Component {
                             </>
                           ) : null}
                           <div style={{ marginTop: "5px", textAlign: "right" }}>
-                            <label class="switch" >
-                              <input type="checkbox" onChange={(e)=>this.handleRequire(e,question)}/>
+                            <label class="switch">
+                              <input
+                                type="checkbox"
+                                onChange={(e) =>
+                                  this.handleRequire(e, question)
+                                }
+                              />
                               <span class="slider round"> </span>
                             </label>{" "}
                             Required
@@ -296,7 +319,7 @@ export default class CreateForm extends React.Component {
                               size="sm"
                               variant="danger"
                               onClick={() => {
-                                this.deleteQuestion(question); 
+                                this.deleteQuestion(question);
                               }}
                             >
                               X
@@ -312,17 +335,56 @@ export default class CreateForm extends React.Component {
                     Add Questions
                   </Button>
                 </Form.Group>
-                <Form.Group style={{backgroundColor:"lightcyan" ,boxShadow:"5px 5px 2px 2px grey",padding:"7px"}}>
-                  <b>Details to be asked in response sheet.  </b><br/>
-                        <Form.Check inline label="Name" type="checkbox" name="Name" onChange={this.handleDetails}/>
-                        <Form.Check inline label="Roll No" type="checkbox" name="RollNo" onChange={this.handleDetails}/>
-                        <Form.Check inline label="Email Id" type="checkbox" name="Email"  onChange={this.handleDetails}/><br/>
+                <Form.Group
+                  style={{
+                    backgroundColor: "lightcyan",
+                    boxShadow: "5px 5px 2px 2px grey",
+                    padding: "7px",
+                  }}
+                >
+                  <b>Details to be asked in response sheet. </b>
+                  <br />
+                  <Form.Check
+                    inline
+                    label="Name"
+                    type="checkbox"
+                    name="Name"
+                    onChange={this.handleDetails}
+                  />
+                  <Form.Check
+                    inline
+                    label="Roll No"
+                    type="checkbox"
+                    name="RollNo"
+                    onChange={this.handleDetails}
+                  />
+                  <Form.Check
+                    inline
+                    label="Email Id"
+                    type="checkbox"
+                    name="Email"
+                    onChange={this.handleDetails}
+                  />
+                  <br />
                 </Form.Group>
 
-               <Form.Group>
-                <Button variant="success" type="submit">
-                    Save
-                </Button>
+                <Form.Group>
+                  {this.state.loadingbtn === false ? (
+                    <Button variant="success" type="submit">
+                      Save
+                    </Button>
+                  ) : (
+                    <Button variant="success" disabled>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      Saving...
+                    </Button>
+                  )}
                 </Form.Group>
               </Form>
               <Modal
@@ -338,7 +400,6 @@ export default class CreateForm extends React.Component {
                   <b>Form Saved Successfully!</b>
                 </Modal.Body>
               </Modal>
-            
             </Col>
           </Row>
         </Container>
