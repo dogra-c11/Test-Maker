@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import car from './img/laptop.jpeg'
 
 import {
     BrowserRouter as Router,

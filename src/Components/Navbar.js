@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import car from "./img/laptop.jpeg";
 import { MdSchool } from "react-icons/md";
 import {FiLogOut} from "react-icons/fi"
 
