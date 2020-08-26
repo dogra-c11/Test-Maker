@@ -356,6 +356,10 @@ input:checked + .slider:before {
 }
 
 .tbl {
-  font-size: 1.7vw;
+  font-size: 1.5vw;
   border-color: black;
+}
+.tbl Button{
+    width:6vw;
+    font-size:1.5vw
 }
