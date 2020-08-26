@@ -30,18 +30,15 @@ export default class FillResponse extends React.Component {
   componentWillMount() {
     const user = localStorage.getItem("user");
     if (user) {
-      console.log(user);
       this.setState({ loggedin: true, user: user });
     }
   }
 
   myIdChangeHandler = (e) => {
-    console.log(e.target.value);
     this.setState({ id: e.target.value });
   };
 
   myResponseChangeHandler = (e, question) => {
-    console.log(e.target.value);
     let n = this.state.form.questions.indexOf(question);
     let form = { ...this.state.form };
     form.questions[n].answer = e.target.value;
@@ -58,14 +55,13 @@ export default class FillResponse extends React.Component {
             this.state,
           )
           .then((res) => {
-            console.log(res.data);
+            this.setState({ loadingbtn: false });
             if (res.data === false) alert("enter correct id");
             else this.setState({ form: res.data, showform: true });
-            this.setState({ loadingbtn: false });
           })
           .catch((err) => {
-            console.error(err);
             this.setState({ loadingbtn: false });
+            console.error(err);
           });
       });
     } else alert("Fill all details correctly");
@@ -100,19 +96,17 @@ export default class FillResponse extends React.Component {
             this.state,
           )
           .then((res) => {
-            console.log(res.data);
-            this.setState({ lgShow: true,loadingbtn: false});
+            this.setState({ lgShow: true, loadingbtn: false });
           })
           .catch((err) => {
+            this.setState({ loadingbtn: false });
             alert(err);
-            this.setState({ loadingbtn: false })
           });
       });
     }
   }
 
   handleDropdownChange = (e, question) => {
-    console.log(e.target.value);
     let n = this.state.form.questions.indexOf(question);
     let form = { ...this.state.form };
     form.questions[n].answer = e.target.value;
@@ -124,22 +118,18 @@ export default class FillResponse extends React.Component {
   };
 
   handleRangeChange = (e, question) => {
-    console.log(e.target.value);
     let n = this.state.form.questions.indexOf(question);
     let form = { ...this.state.form };
     form.questions[n].answer = e.target.value;
     this.setState({ form });
-    console.log(this.state);
   };
 
   detailsHandler = (e) => {
     let form = { ...this.state.form };
-    console.log(e.target.value);
     if (e.target.name === "name") form.details.name = e.target.value;
     else if (e.target.name === "rollno") form.details.rollno = e.target.value;
     else if (e.target.name === "email") form.details.email = e.target.value;
     this.setState({ form });
-    console.log(this.state);
   };
 
   getRange = (start, end) => {
@@ -208,9 +198,13 @@ export default class FillResponse extends React.Component {
                     <Form.Label>{this.state.form.description}</Form.Label>
                   </Form.Group>
                   <Form.Group
-                    style={{ backgroundColor: "white", marginBottom: "30px" }}
+                    style={{
+                      backgroundColor: "white",
+                      marginBottom: "30px",
+                      padding: "20px",
+                    }}
                   >
-                    {this.state.form.details.name === true ? (
+                    {this.state.form.details.name === false ? null : (
                       <>
                         <Form.Label>
                           <b>Name</b>
@@ -222,8 +216,8 @@ export default class FillResponse extends React.Component {
                           onChange={this.detailsHandler}
                         />
                       </>
-                    ) : null}
-                    {this.state.form.details.rollno === true ? (
+                    )}
+                    {this.state.form.details.rollno === false ? null : (
                       <>
                         <Form.Label>
                           <b>Roll No</b>
@@ -235,8 +229,8 @@ export default class FillResponse extends React.Component {
                           onChange={this.detailsHandler}
                         />
                       </>
-                    ) : null}
-                    {this.state.form.details.email === true ? (
+                    )}
+                    {this.state.form.details.email === false ? null : (
                       <>
                         <Form.Label>
                           <b>Email Id</b>
@@ -248,7 +242,7 @@ export default class FillResponse extends React.Component {
                           onChange={this.detailsHandler}
                         />
                       </>
-                    ) : null}
+                    )}
                   </Form.Group>
                   <Form.Group>
                     <Form.Row>

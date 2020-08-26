@@ -4,8 +4,7 @@ import { BrowserRouter as Router, Link, Redirect } from "react-router-dom";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-import Spinner from 'react-bootstrap/Spinner'
-
+import Spinner from "react-bootstrap/Spinner";
 
 export default class MyForms extends React.Component {
   constructor() {
@@ -17,16 +16,18 @@ export default class MyForms extends React.Component {
       response: { form: { questions: [] } },
       user: user,
       lgShow: false,
-      spinner:true,
+      spinner: true,
     };
   }
 
   componentWillMount() {
     axios
-      .post("https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/showmyresponses", this.state)
+      .post(
+        "https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/showmyresponses",
+        this.state,
+      )
       .then((res) => {
-        console.log("mount",res.data);
-        this.setState({ responses: res.data,spinner:false });
+        this.setState({ responses: res.data, spinner: false });
       })
       .catch((err) => {
         console.error(err);
@@ -42,9 +43,6 @@ export default class MyForms extends React.Component {
   };
 
   render() {
-    // if (!this.state.loggedin) {
-    //   return <Redirect to="/sign-in" />;
-    // }
     return (
       <>
         <div className="forms">
@@ -54,30 +52,49 @@ export default class MyForms extends React.Component {
               <Link to="/fill_response" className="btn btn-hover color-10 link">
                 Answer Test
               </Link>
-
             </p>
-          </Jumbotron><br/>
-          <h3><u>Previous Responses</u></h3><br/>
+          </Jumbotron>
+          <br />
+          <h3>
+            <u>Previous Responses</u>
+          </h3>
+          <br />
 
-          {this.state.responses.length === 0 ? (<>
-            {this.state.spinner===true?(<Spinner animation="border" role="status">
-  <span className="sr-only">Loading...</span>
-</Spinner>):<p>No tests submitted yet.</p>}
-         </> ) : (
+          {this.state.responses.length === 0 ? (
+            <>
+              {this.state.spinner === true ? (
+                <Spinner animation="border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
+              ) : (
+                <p>No tests submitted yet.</p>
+              )}
+            </>
+          ) : (
             this.state.responses.map((response) => (
               <>
                 <div
                   style={{
-                    padding:"4%",
+                    padding: "4%",
 
                     backgroundColor: "#d580ff",
                     marginBottom: "30px",
                     boxShadow: "5px 5px 2px 2px #b3b3b3",
                   }}
                 >
-                  <p> Test Id : <b>{response.id}</b></p>
-                  <p> Test Name : <b>{response.form.name}</b></p>
-                  <p> Submission Date :<b> {response.date.toString().substring(0,10)}</b></p>
+                  <p>
+                    {" "}
+                    Test Id : <b>{response.id}</b>
+                  </p>
+                  <p>
+                    {" "}
+                    Test Name : <b>{response.form.name}</b>
+                  </p>
+                  <p>
+                    {" "}
+                    Submission Date :
+                    <b> {response.date.toString().substring(0, 10)}</b>
+                  </p>
 
                   <Button
                     variant="success"
@@ -90,7 +107,7 @@ export default class MyForms extends React.Component {
             ))
           )}
         </div>
-        
+
         <Modal
           size="lg"
           show={this.state.lgShow}

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-
 
 export default class SignUp extends Component {
   constructor() {
@@ -33,31 +32,28 @@ export default class SignUp extends Component {
             this.state.details,
           )
           .then((res) => {
+            this.setState({ loadingbtn: false });
             if (res.data === "no") alert("email id already exists");
             else {
               alert(res.data);
               this.setState({ loggedin: true });
-              }
-              this.setState({loadingbtn: false})
+            }
           })
           .catch((err) => {
-              console.error(err);
-              this.setState({loadingbtn: false})
+            console.error(err);
+            this.setState({ loadingbtn: false });
           });
       });
     } else alert("Fill all details correctly");
   };
 
   myChangeHandler = (e) => {
-    console.log(e.target.value);
     let details = { ...this.state.details };
-
     if (e.target.name === "fn") details.fname = e.target.value;
     else if (e.target.name === "ln") details.lname = e.target.value;
     else if (e.target.name === "em") details.email = e.target.value;
     else if (e.target.name === "pw") details.password = e.target.value;
     this.setState({ details });
-    console.log(this.state);
   };
 
   render() {

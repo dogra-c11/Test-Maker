@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -15,7 +14,6 @@ import Table from "react-bootstrap/Table";
 export default class ShowResponse extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     let id = new URLSearchParams(window.location.search).get("utm");
     this.state = {
       id: id,
@@ -31,7 +29,6 @@ export default class ShowResponse extends React.Component {
   componentWillMount() {
     const user = localStorage.getItem("user");
     if (user) {
-      console.log(user);
       this.setState({ loggedin: true });
     }
 
@@ -39,27 +36,21 @@ export default class ShowResponse extends React.Component {
   }
 
   myIdChangeHandler = (e) => {
-    console.log(e.target.value);
     this.setState({ id: e.target.value });
   };
 
   myIdHandler = () => {
-    //event.preventDefault();
-    // if (this.state.id.trim() != "") {
     axios
       .post(
         "https://cors-anywhere11.herokuapp.com/https://testmaker-server.herokuapp.com/showresponses",
         this.state,
       )
       .then((res) => {
-        console.log(res.data);
         this.setState({ responses: res.data, showresponses: true });
       })
       .catch((err) => {
         console.error(err);
       });
-    // }
-    //   else alert("Fill all details correctly");
   };
 
   responseHandler = (e, res) => {
@@ -99,7 +90,7 @@ export default class ShowResponse extends React.Component {
                     ALL RESPONSES
                   </h2>
                   <br />
-                  <Table striped bordered hover>
+                  <Table striped bordered hover className="tbl">
                     {" "}
                     <thead>
                       <tr>

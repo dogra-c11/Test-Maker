@@ -7,9 +7,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Redirect } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-import Navbar from "./Navbar";
-import Spinner from 'react-bootstrap/Spinner';
-
+import Spinner from "react-bootstrap/Spinner";
 
 export default class CreateForm extends React.Component {
   constructor() {
@@ -38,22 +36,18 @@ export default class CreateForm extends React.Component {
       lgShow: false,
       loggedin: false,
       loadingbtn: false,
-      goback:false,
+      goback: false,
     };
   }
 
   componentWillMount() {
     const user = localStorage.getItem("user");
     if (user) {
-      console.log(user);
-      this.setState({ loggedin: true, user: user }, () =>
-        console.log(this.state),
-      );
+      this.setState({ loggedin: true, user: user });
     }
   }
 
   handleDropdownChange = (e, question) => {
-    console.log(e.target.value);
     let n = this.state.questions.indexOf(question);
     let questions = [...this.state.questions];
     questions[n].selectValue = e.target.value;
@@ -66,7 +60,6 @@ export default class CreateForm extends React.Component {
     if (e.target.name === "start") questions[n].start = e.target.value;
     else if (e.target.name === "end") questions[n].end = e.target.value;
     this.setState({ questions });
-    console.log(this.state);
   };
 
   addoptions = (question) => {
@@ -98,8 +91,6 @@ export default class CreateForm extends React.Component {
   };
 
   myChangeHandler = (e, question, option) => {
-    console.log(e.target.value);
-
     if (e.target.name === "name") this.setState({ name: e.target.value });
     else if (e.target.name === "description")
       this.setState({ description: e.target.value });
@@ -109,7 +100,6 @@ export default class CreateForm extends React.Component {
       if (e.target.name === "question") questions[n].question = e.target.value;
       else if (e.target.name === "option") {
         let o = questions[n].options.indexOf(option);
-        console.log(o);
         questions[n].options[o].q = e.target.value;
       }
       this.setState({ questions });
@@ -126,22 +116,20 @@ export default class CreateForm extends React.Component {
             this.state,
           )
           .then((res) => {
-            console.log(res.data);
-            this.setState({ lgShow: true,loadingbtn: false });
+            this.setState({ lgShow: true, loadingbtn: false });
           })
           .catch((err) => {
-            alert(err);
             this.setState({ loadingbtn: false });
+            alert(err);
           });
       });
     } else alert("Fill all details correctly");
   };
 
   handleClose = () => {
-    this.setState({ lgShow: false,goback:true });
+    this.setState({ lgShow: false, goback: true });
   };
   handleRequire = (e, question) => {
-    console.log(e.target.checked);
     let n = this.state.questions.indexOf(question);
     let questions = [...this.state.questions];
     questions[n].required = e.target.checked;
@@ -149,7 +137,6 @@ export default class CreateForm extends React.Component {
   };
 
   handleDetails = (e) => {
-    console.log(e.target.checked);
     let details = { ...this.state.details };
     if (e.target.name === "Name") {
       details.name = e.target.checked;

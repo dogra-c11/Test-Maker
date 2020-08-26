@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-
 
 export default class Login extends Component {
   constructor() {
@@ -34,6 +33,7 @@ export default class Login extends Component {
           this.state.details,
         )
         .then((res) => {
+          this.setState({ loadingbtn: false });
           if (res.data === false) alert("username or password is incorrect.");
           else {
             let user = res.data;
@@ -42,25 +42,20 @@ export default class Login extends Component {
             localStorage.setItem("email", JSON.stringify(user[0].email));
             this.setState({ loggedin: true });
           }
-          this.setState({ loadingbtn: false });
-          console.log(res.data);
         })
         .catch((err) => {
-            console.error(err);
-            this.setState({ loadingbtn: false });
+          console.error(err);
+          this.setState({ loadingbtn: false });
         });
     });
   };
 
   myChangeHandler = (e) => {
-    console.log(e.target.value);
     let details = { ...this.state.details };
 
     if (e.target.name === "em") details.email = e.target.value;
     else if (e.target.name === "pw") details.password = e.target.value;
     this.setState({ details });
-
-    console.log(this.state);
   };
 
   render() {
@@ -114,7 +109,7 @@ export default class Login extends Component {
                 Submit
               </button>
             ) : (
-              <Button variant="primary" disabled>
+              <Button variant="success" disabled>
                 <Spinner
                   as="span"
                   animation="border"

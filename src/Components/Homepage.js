@@ -1,12 +1,6 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 
-import {
-    BrowserRouter as Router,
-  Link,
-    Redirect,
-    
-  } from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 export default class Homepage extends React.Component {
   constructor() {
