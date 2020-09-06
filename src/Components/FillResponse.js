@@ -21,6 +21,7 @@ export default class FillResponse extends React.Component {
       lgShow: false,
       loggedin: false,
       loadingbtn: false,
+      detshow: true,
     };
     String.prototype.unquoted = function () {
       return this.replace(/(^")|("$)/g, "");
@@ -73,8 +74,12 @@ export default class FillResponse extends React.Component {
     const em = localStorage.getItem("email").unquoted();
 
     let form = { ...this.state.form };
-    if (form.details.name === false) form.details.name = un;
-    if (form.details.email === false) form.details.email = em;
+    let flag = false;
+    if (form.details.name === false) { form.details.name = un; flag = true;}
+    if (form.details.email === false) { form.details.email = em; flag = true; }
+    if (flag) {
+      this.setState({detshow:false,})
+    }
     this.setState({ form }, () => {
       this.myResponseHandler2();
     });
@@ -105,6 +110,8 @@ export default class FillResponse extends React.Component {
       });
     }
   }
+
+ 
 
   handleDropdownChange = (e, question) => {
     let n = this.state.form.questions.indexOf(question);
@@ -196,14 +203,15 @@ export default class FillResponse extends React.Component {
                     <br />
 
                     <Form.Label>{this.state.form.description}</Form.Label>
-                  </Form.Group>
-                  <Form.Group
+                    </Form.Group>
+                    {this.state.detshow === true ? (<>
+                      <Form.Group
                     style={{
                       backgroundColor: "white",
                       marginBottom: "30px",
                       padding: "20px",
                     }}
-                  >
+                    >
                     {this.state.form.details.name === false ? null : (
                       <>
                         <Form.Label>
@@ -244,6 +252,9 @@ export default class FillResponse extends React.Component {
                       </>
                     )}
                   </Form.Group>
+                    
+                    </>) : null}
+                  
                   <Form.Group>
                     <Form.Row>
                       <Col>
